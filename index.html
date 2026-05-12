@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>نموذج الطلب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#2563eb;--accent:#7c3aed;--success:#059669;--danger:#dc2626;
+  --bg:#f1f5f9;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--inp:#f8fafc
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);min-height:100vh;padding-bottom:60px;color:var(--text)}
+.hdr{background:linear-gradient(135deg,var(--primary),var(--accent));padding:36px 20px 52px;text-align:center;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hdr h1{font-size:1.8rem;font-weight:800;color:#fff;position:relative;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr p{color:rgba(255,255,255,.88);font-size:.95rem;margin-top:8px;position:relative}
+.wrap{max-width:560px;margin:-28px auto 0;padding:0 16px}
+.card{background:var(--card);border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(0,0,0,.07);margin-bottom:14px}
+.sec-title{font-size:.85rem;font-weight:700;color:var(--primary);letter-spacing:.5px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--border),transparent);border-radius:2px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-weight:600;font-size:.85rem;color:var(--text);margin-bottom:6px}
+.req{color:var(--danger)}
+input[type=text],input[type=tel],input[type=password],select,textarea{
+  width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;
+  font-size:.93rem;font-family:'Tajawal',sans-serif;background:var(--inp);
+  color:var(--text);transition:border-color .18s,box-shadow .18s;direction:rtl
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.12);background:#fff}
+input.err,select.err,textarea.err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(220,38,38,.1)}
+.em{color:var(--danger);font-size:.78rem;margin-top:4px;display:none}
+.dlv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dlv-opt{border:1.5px solid var(--border);border-radius:12px;padding:14px 12px;cursor:pointer;text-align:center;font-size:.88rem;font-weight:600;color:var(--muted);background:var(--inp);transition:all .18s;user-select:none}
+.dlv-opt .ico{font-size:1.4rem;display:block;margin-bottom:4px}
+.dlv-opt.sel{border-color:var(--primary);background:#eff6ff;color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.pcard{display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid var(--border);border-radius:14px;cursor:pointer;margin-bottom:10px;background:var(--inp);transition:all .18s}
+.pcard:hover{border-color:var(--primary);background:#eff6ff}
+.pcard.sel{border-color:var(--primary);background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.pthumb{width:62px;height:62px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.pthumb-ph{width:62px;height:62px;border-radius:10px;flex-shrink:0;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.pcheck{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.pcard.sel .pcheck{border-color:var(--primary);background:var(--primary)}
+.pcard.sel .pcheck::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.pinfo{flex:1;min-width:0}
+.pname{font-weight:700;font-size:.95rem}
+.pdesc{font-size:.78rem;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pprice{font-weight:800;font-size:1rem;color:var(--primary);margin-top:4px}
+.qc{display:flex;align-items:center;gap:14px}
+.qb{width:38px;height:38px;border:1.5px solid var(--primary);background:#fff;color:var(--primary);border-radius:10px;font-size:1.3rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.qb:hover{background:var(--primary);color:#fff}
+.qn{font-size:1.2rem;font-weight:800;min-width:28px;text-align:center}
+.ocard{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid #fcd34d;border-radius:12px;margin-bottom:8px;background:#fffbeb;cursor:pointer;transition:all .18s}
+.ocard.sel{border-color:#f59e0b;background:#fef3c7;box-shadow:0 0 0 3px rgba(245,158,11,.15)}
+.ocheck{width:20px;height:20px;border:2px solid #fcd34d;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.ocard.sel .ocheck{border-color:#f59e0b;background:#f59e0b}
+.ocard.sel .ocheck::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.otxt{flex:1}
+.oname{font-weight:700;font-size:.9rem;color:#92400e}
+.obadge{display:inline-block;background:#f59e0b;color:#fff;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:4px}
+.odesc{font-size:.78rem;color:#b45309;margin-top:2px}
+.tbox{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:2px solid var(--primary);border-radius:16px;padding:16px;margin:6px 0 14px;display:none}
+.tr{display:flex;justify-content:space-between;padding:4px 0;font-size:.88rem;color:var(--muted)}
+.tr.main{font-weight:800;font-size:1.1rem;color:var(--primary);border-top:1.5px solid #bfdbfe;margin-top:8px;padding-top:10px}
+.btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:800;font-family:'Tajawal',sans-serif;cursor:pointer;transition:all .2s}
+.btn:hover{opacity:.92;transform:translateY(-1px)}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.okbox-wrap{display:none}
+.ok{text-align:center;padding:32px 20px}
+.ok-icon{font-size:3.5rem;margin-bottom:12px;animation:pop .4s ease}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.ok h2{font-size:1.3rem;font-weight:800;color:var(--success);margin-bottom:8px}
+.ok p{color:var(--muted);font-size:.9rem}
+.ok .oid{display:inline-block;margin-top:14px;padding:8px 20px;background:#f0fdf4;border:1.5px solid #6ee7b7;border-radius:30px;font-weight:700;color:var(--success);font-size:.9rem}
+.loader{display:none;position:fixed;inset:0;background:rgba(255,255,255,.88);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.loader.show{display:flex}
+.spinner{width:44px;height:44px;border:4px solid #e2e8f0;border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader p{font-weight:600;color:var(--muted)}
+.init-loader{position:fixed;inset:0;background:#f1f5f9;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s}
+.init-loader.hide{opacity:0;pointer-events:none}
+.init-loader p{font-weight:700;color:var(--primary);font-size:1rem}
+#admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center;padding:16px}
+#admin-overlay.show{display:flex}
+.admin-modal{background:#fff;border-radius:20px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.admin-hdr{background:linear-gradient(135deg,#1e293b,#334155);color:#fff;padding:20px 24px;border-radius:20px 20px 0 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.admin-hdr h2{font-size:1.1rem;font-weight:800}
+.admin-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+.admin-body{padding:20px}
+.admin-section{margin-bottom:22px}
+.admin-sec-title{font-weight:800;color:var(--primary);font-size:.9rem;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--border)}
+.adm-hint{font-size:.76rem;color:var(--muted);margin-bottom:10px}
+.adm-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--inp);flex-wrap:wrap}
+.adm-row input[type=text],.adm-row input[type=number]{flex:1;min-width:70px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:.82rem;font-family:'Tajawal',sans-serif;direction:rtl;background:#fff;color:var(--text)}
+.adm-row input:focus{outline:none;border-color:var(--primary)}
+.inp-price{max-width:85px!important}
+.inp-disc{max-width:65px!important}
+.adm-del{background:#fee2e2;color:#dc2626;border:none;border-radius:7px;width:30px;height:30px;cursor:pointer;flex-shrink:0;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.adm-del:hover{background:#fecaca}
+.adm-add{background:#eff6ff;color:var(--primary);border:1.5px dashed var(--primary);border-radius:9px;padding:8px 14px;cursor:pointer;font-size:.83rem;font-family:'Tajawal',sans-serif;margin-top:4px;width:100%}
+.adm-add:hover{background:#dbeafe}
+.adm-img-wrap{position:relative;width:52px;height:52px;flex-shrink:0}
+.adm-img-preview{width:52px;height:52px;border-radius:8px;border:1.5px dashed #94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#f8fafc;background-size:cover;background-position:center;font-size:1.3rem;overflow:hidden}
+.adm-img-preview.has-img{border-style:solid;border-color:var(--border)}
+.adm-img-del{position:absolute;top:-7px;right:-7px;width:20px;height:20px;background:#dc2626;color:#fff;border:2px solid #fff;border-radius:50%;cursor:pointer;font-size:.7rem;display:none;align-items:center;justify-content:center;z-index:2;font-weight:700;padding:0}
+.adm-img-del.vis{display:flex}
+.adm-img-input{display:none}
+.toggle{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.tgl-sl{position:absolute;cursor:pointer;inset:0;background:#cbd5e1;border-radius:24px;transition:.25s}
+.tgl-sl::before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.25s}
+input:checked+.tgl-sl{background:var(--primary)}
+input:checked+.tgl-sl::before{transform:translateX(20px)}
+.admin-login{padding:32px 20px;text-align:center}
+.admin-login h3{font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:6px}
+.admin-login p{font-size:.85rem;color:var(--muted);margin-bottom:20px}
+.admin-login input{direction:ltr;text-align:center;margin-bottom:12px}
+.admin-btn{width:100%;padding:13px;background:linear-gradient(135deg,#1e293b,#334155);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:700;font-family:'Tajawal',sans-serif;cursor:pointer}
+.save-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--success),#047857);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;font-family:'Tajawal',sans-serif;cursor:pointer;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px}
+.save-btn:disabled{opacity:.6;cursor:not-allowed}
+.info-box{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px;margin-top:12px;font-size:.83rem;color:#1e40af;line-height:1.7}
+.info-box b{display:block;font-size:.88rem;margin-bottom:6px;color:#1e3a8a}
+.info-box.ok{background:#f0fdf4;border-color:#6ee7b7;color:#065f46}
+.info-box.ok b{color:#064e3b}
+.cfg-full-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:.83rem;font-family:'Tajawal',sans-serif;direction:ltr;background:#fff;color:var(--text);margin-bottom:8px}
+.cfg-full-input:focus{outline:none;border-color:var(--primary)}
+.url-box{background:#fffbeb;border:1.5px solid #fcd34d;border-radius:12px;padding:16px;margin-bottom:16px}
+.url-box b{display:block;font-size:.85rem;color:#78350f;margin-bottom:8px}
+.url-save-btn{background:var(--primary);color:#fff;border:none;border-radius:9px;padding:9px 18px;cursor:pointer;font-size:.85rem;font-weight:700;font-family:'Tajawal',sans-serif;width:100%;margin-top:4px}
+.admin-fab{position:fixed;bottom:20px;left:20px;width:48px;height:48px;background:#1e293b;color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;transition:transform .2s}
+.admin-fab:hover{transform:scale(1.1)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:#fff;padding:10px 22px;border-radius:30px;font-size:.88rem;font-weight:600;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:var(--success)}
+.toast.err{background:var(--danger)}
+@media(max-width:400px){.dlv-grid{grid-template-columns:1fr}.hdr h1{font-size:1.4rem}}
+</style>
+</head>
+<body>
+
+<script>
+// ★★★ ضع رابط Apps Script هنا بعد النشر ★★★
+var SHEET_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbyYwmeBjllvFVC_6zTXsc24p84hmsGyEIIdbzq3TN1gZ92UApRMD6piSdmy-zOx4LD-uQ/exec';
+var LS_URL_KEY = 'order_form_script_url';
+var SHEET_URL = localStorage.getItem(LS_URL_KEY) || SHEET_URL_DEFAULT;
+var CONFIG = null;
+var qty = 1, selPrice = 0, selDisc = 0, selDlv = '';
+var adminUnlocked = false, adminPassword = 'admin2026';
+</script>
+
+<div class="init-loader" id="init-loader">
+  <div class="spinner"></div>
+  <p id="init-msg">جاري تحميل الإعدادات...</p>
+</div>
+<div class="loader" id="loader"><div class="spinner"></div><p>جاري إرسال طلبك...</p></div>
+<div class="toast" id="toast"></div>
+
+<div class="hdr">
+  <h1 id="page-title">🛒 نموذج الطلب</h1>
+  <p>أدخل بياناتك لإتمام طلبك بسرعة وسهولة</p>
+</div>
+
+<div class="wrap" id="mainForm">
+  <div class="card">
+    <div class="sec-title">👤 المعلومات الشخصية</div>
+    <div class="fg">
+      <label>الاسم الكامل <span class="req">*</span></label>
+      <input type="text" id="fn" placeholder="أدخل اسمك الكامل">
+      <div class="em" id="e-fn">يرجى إدخال الاسم (3 أحرف على الأقل)</div>
+    </div>
+    <div class="fg">
+      <label>رقم الهاتف <span class="req">*</span></label>
+      <input type="tel" id="ph" placeholder="05xxxxxxxx" dir="ltr" style="text-align:right">
+      <div class="em" id="e-ph">رقم غير صحيح (يبدأ بـ 05 أو 06 أو 07، 10 أرقام)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">📍 معلومات التوصيل</div>
+    <div class="fg">
+      <label>الولاية <span class="req">*</span></label>
+      <select id="wil" onchange="loadBal()"><option value="">-- اختر الولاية --</option></select>
+      <div class="em" id="e-wil">اختر الولاية</div>
+    </div>
+    <div class="fg">
+      <label>البلدية <span class="req">*</span></label>
+      <select id="bal" disabled><option value="">-- اختر الولاية أولاً --</option></select>
+      <div class="em" id="e-bal">اختر البلدية</div>
+    </div>
+    <div class="fg">
+      <label>العنوان التفصيلي <span class="req">*</span></label>
+      <textarea id="adr" rows="2" placeholder="الحي، الشارع، رقم المبنى..."></textarea>
+      <div class="em" id="e-adr">أدخل العنوان التفصيلي</div>
+    </div>
+    <div class="fg">
+      <label>مكان التوصيل <span class="req">*</span></label>
+      <div class="dlv-grid">
+        <div class="dlv-opt" onclick="pickDlv(this,'A domicile')"><span class="ico">🏠</span>المنزل</div>
+        <div class="dlv-opt" onclick="pickDlv(this,'Stopdesk')"><span class="ico">🏢</span>نقطة تسليم</div>
+      </div>
+      <div class="em" id="e-dlv">اختر مكان التوصيل</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">📦 اختر المنتج</div>
+    <div id="prods-container"></div>
+    <div class="em" id="e-prod">يرجى اختيار منتج</div>
+    <div class="fg" style="margin-top:16px">
+      <label>الكمية</label>
+      <div class="qc">
+        <button type="button" class="qb" onclick="chgQ(-1)">−</button>
+        <span class="qn" id="qn">1</span>
+        <button type="button" class="qb" onclick="chgQ(1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="vars-card" style="display:none">
+    <div class="sec-title">🎨 المتغيرات</div>
+    <div id="vars-container"></div>
+  </div>
+
+  <div class="card" id="offers-card" style="display:none">
+    <div class="sec-title">🏷️ العروض المتاحة</div>
+    <div id="offers-container"></div>
+  </div>
+
+  <div class="tbox" id="tbox">
+    <div class="tr"><span>سعر المنتج:</span><span id="t1">0 دج</span></div>
+    <div class="tr"><span>الكمية:</span><span id="t2">×1</span></div>
+    <div class="tr"><span>الخصم:</span><span id="t3" style="color:var(--danger)">0 دج</span></div>
+    <div class="tr main"><span>💰 المجموع الكلي:</span><span id="t4">0 دج</span></div>
+  </div>
+
+  <div class="card">
+    <button class="btn" id="sbtn" onclick="send()">✅ تأكيد الطلب</button>
+  </div>
+</div>
+
+<div class="wrap okbox-wrap" id="okbox-wrap">
+  <div class="card ok">
+    <div class="ok-icon">🎉</div>
+    <h2>تم استلام طلبك بنجاح!</h2>
+    <p>سيتواصل معك فريقنا قريباً لتأكيد الطلب والتوصيل 🚚</p>
+    <p style="margin-top:8px;color:var(--success);font-weight:700">شكراً لثقتك بنا ❤️</p>
+    <div class="oid" id="oid"></div>
+  </div>
+</div>
+
+<button class="admin-fab" id="admin-fab" onclick="openAdmin()" title="الإعدادات">⚙️</button>
+
+<div id="admin-overlay">
+  <div class="admin-modal">
+    <div class="admin-hdr">
+      <h2>⚙️ لوحة الإعدادات</h2>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div id="admin-content"></div>
+  </div>
+</div>
+
+<script>
+// ===================== بيانات الولايات =====================
+var MUN = {"1 - Adrar":["Adrar","Akabli","Aoulef","Bouda","Fenoughil","In Zghmir","Ouled Ahmed Timmi","Reggane","Sali","Sebaa","Tamantit","Tamest","Timekten","Tit","Tsabit","Zaouiet Kounta"],"2 - Chlef":["Chlef","Abou El Hassan","Ain Merane","Benairia","Beni Bouattab","Beni Haoua","Beni Rached","Boukadir","Bouzeghaia","Breira","Chettia","Dahra","El Hadjadj","El Karimia","El Marsa","Harchoun","Herenfa","Labiod Medjadja","Moussadek","Oued Fodda","Oued Goussine","Oued Sly","Ouled Abbes","Ouled Ben Abdelkader","Ouled Fares","Oum Drou","Sendjas","Sidi Abderrahmane","Sidi Akkacha","Sobha","Tadjena","Talassa","Taougrite","Tenes","Zeboudja"],"3 - Laghouat":["Laghouat","Aflou","Ain Mahdi","Ain Sidi Ali","Beidha","Benacer Benchohra","Brida","El Assafia","El Ghicha","El Haouaita","Gueltat Sidi Saad","Hadj Mechri","Hassi Delaa","Hassi Rmel","Kheneg","Ksar El Hirane","Oued M zi","Oued Morra","Sebgag","Sidi Bouzid","Sidi Makhlouf","Tadjemout","Tadjrouna","Taouiala"],"4 - Oum El Bouaghi":["Oum El Bouaghi","Ain Babouche","Ain Beida","Ain Diss","Ain Fekroune","Ain Kercha","Ain M lila","Ain Zitoun","Behir Chergui","Berriche","Bir Chouhada","Dhala","El Amiria","El Belala","El Djazia","El Fedjoudj","El Harmilia","Fkirina","Hanchir Toumghani","Ksar Sbahi","Meskiana","Oued Nini","Ouled Gacem","Ouled Hamla","Ouled Zouai","Rahia","Sigus","Souk Naamane","Zorg"],"5 - Batna":["Batna","Ain Djasser","Ain Touta","Ain Yagout","Arris","Azil Abedelkader","Barika","Beni Foudhala","Bitam","Boulhilat","Boumagueur","Boumia","Bouzina","Chemora","Chir","Djerma","Djezzar","El Hassi","El Madher","Fesdis","Foum Toub","Ghassira","Gosbat","Guigba","Hidoussa","Ichmoul","Inoughissen","Kimmel","Ksar Bellezma","Larbaa","Lazrou","Lemsane","M Doukal","Maafa","Menaa","Merouana","N Gaous","Oued Chaaba","Oued El Ma","Oued Taga","Ouled Ammar","Ouled Aouf","Ouled Fadel","Ouled Sellem","Rahbat","Ras El Aioun","Sefiane","Seggana","Seriana","T Kout","Talkhamt","Taxlent","Tazoult","Teniet El Abed","Tighanimine","Tigharghar","Tilatou","Timgad","Zanet El Beida"],"6 - Bejaia":["Bejaia","Adekar","Ait Smail","Akbou","Akfadou","Amalou","Amizour","Aokas","Barbacha","Beni Dejllil","Beni Mallikeche","Benimaouche","Boudjellil","Bouhamza","Boukhelifa","Chellata","Chemini","Darghina","Dra El Caid","El Kseur","Feraoun","Ighil Ali","Ighram","Kendira","Kherrata","Leflaye","Melbou","Oued Ghir","Ouzellaguene","Seddouk","Sidi Aich","Sidi Ayad","Smaoun","Souk El Tenine","Tala Hamza","Tamokra","Tamridjet","Taskriout","Tazmalt","Tibane","Tichy","Tifra","Timezrit","Tinebdar","Toudja"],"7 - Biskra":["Biskra","Ain Naga","Ain Zaatout","Bordj Ben Azzouz","Bouchagroun","Branis","Chetma","Djemorah","El Feidh","El Ghrous","El Hadjab","El Haouch","El Kantara","El Outaya","Foughala","Khenguet Sidi Nadji","Lichana","Lioua","Mekhadma","Meziraa","Oumache","Ourlal","Sidi Okba","Tolga","Zeribet El Oued"],"8 - Bechar":["Bechar","Abadla","Beni Ounif","Boukais","Erg Ferradj","Kenadsa","Lahmar","Meridja","Mogheul","Taghit"],"9 - Blida":["Blida","Ain Romana","Beni Mered","Beni Tamou","Benkhelil","Bouarfa","Boufarik","Bougara","Bouinan","Chebli","Chiffa","Chrea","Djebabra","El Affroun","Guerrouaou","Hammam Melouane","Larbaa","Meftah","Mouzaia","Oued Djer","Oued El Alleug","Ouled Slama","Ouled Yaich","Souhane","Souma"],"10 - Bouira":["Bouira","Aghbalou","Ain Bessem","Ain El Hadjar","Ain Turk","Ait Laaziz","Aomar","Bechloul","Bir Ghbalou","Bordj Okhriss","Bouderbala","Boukram","Chorfa","Dechmia","Dirah","Djebahia","El Adjiba","El Asnam","El Hachimia","El Hakimia","El Mokrani","Guerrouma","Hadjera Zerga","Haizer","Hanif","Kadiria","Lakhdaria","M Chedallah","Maala","Mamora","Mezdour","Oued El Berdi","Ouled Rached","Raouraoua","Ridane","Saharidj","Souk El Khemis","Sour El Ghozlane","Taghzout","Taourirt"],"11 - Tamanrasset":["Tamanrasset","Abalessa","Ain Amguel","Idles","Tazrouk"],"12 - Tebessa":["Tebessa","Ain Zerga","Bedjene","Bekkaria","Bir Dheheb","Bir El Ater","Bir Mokkadem","Boukhadra","Boulhaf Dyr","Cheria","El Aouinet","El Kouif","El Malabiod","El Meridj","El Ogla","Ferkane","Hammamet","Morssot","Negrine","Ouenza","Oum Ali","Telidjen"],"13 - Tlemcen":["Tlemcen","Ain Fettah","Ain Fezza","Ain Ghoraba","Ain Kebira","Ain Nehala","Ain Tallout","Ain Youcef","Amieur","Azails","Bab El Assa","Beni Bahdel","Beni Boussaid","Beni Khaled","Beni Mester","Beni Ouarsous","Beni Snous","Bensekrane","Bouhlou","Chetouane","El Aricha","El Fehoul","Fellaoucene","Ghazaouet","Hammam Boughrara","Hennaya","Honaine","Maghnia","Mansourah","Nedroma","Remchi","Sabra","Sebdou","Sidi Abdelli","Sidi Djilali","Souahlia","Souani","Souk Tleta","Zenata"],"14 - Tiaret":["Tiaret","Ain Bouchekif","Ain Deheb","Ain El Hadid","Ain Kermes","Ain Zarit","Chehaima","Dahmouni","Frenda","Guertoufa","Hamadia","Ksar Chellala","Mahdia","Meghila","Nadorah","Naima","Oued Lilli","Rahouia","Rechaiga","Sougueur","Tagdemt","Takhemaret","Tidda"],"15 - Tizi Ouzou":["Tizi Ouzou","Abi Youcef","Aghribs","Ain El Hammam","Ain Zaouia","Ait Bouaddou","Ait Chafaa","Ait Mahmoud","Ait Oumalou","Ait Yahia","Akbil","Azazga","Azeffoun","Beni Aissi","Beni Douala","Beni Yenni","Boghni","Boudjima","Bounouh","Bouzeguene","Draa Ben Khedda","Draa El Mizan","Freha","Iboudrarene","Iferhounene","Iflissen","Illilten","Irdjen","Maatkas","Makouda","Mechtras","Mekla","Ouacif","Ouadhias","Sidi Naamane","Souamaa","Tadmait","Tigzirt","Timizart","Tizi Ghenif","Yakourene","Tizi Rached"],"16 - Alger":["Alger Centre","Ain Taya","Ain Benian","Bab El Oued","Bab Ezzouar","Baba Hesen","Bachedjerah","Baraki","Ben Aknoun","Beni Messous","Bir Mourad Rais","Bir Touta","Birkhadem","Bordj El Bahri","Bordj El Kiffan","Bourouba","Bouzareah","Casbah","Cheraga","Dar El Beida","Dely Ibrahim","Douira","Draria","El Achour","El Biar","El Harrach","El Madania","El Magharia","El Mouradia","Herraoua","Hussein Dey","Hydra","Kheraisia","Kouba","Les Eucalyptus","Mohamed Belouzdad","Mohammadia","Oued Koriche","Oued Smar","Ouled Fayet","Rahmania","Rais Hamidou","Reghaia","Rouiba","Sehaoula","Sidi Moussa","Souidania","Zeralda"],"17 - Djelfa":["Djelfa","Ain Chouhada","Ain El Ibel","Ain Maabed","Ain Oussera","Amourah","Benhar","Birine","Bouira Lahdab","Charef","Dar Chioukh","Deldoul","El Guedid","El Idrissia","Faidh El Botma","Guernini","Had Sahary","Hassi Bahbah","Hassi El Euch","Messaad","Moudjebara","Oum Laadham","Selmana","Sidi Ladjel","Zaafrane"],"18 - Jijel":["Jijel","Bordj Tahar","Bouraoui Belhadef","Chahna","Chekfa","Djemaa Beni Habibi","El Ancer","El Aouana","El Milia","Emir Abdelkader","Erraguene","Ghebala","Oudjana","Ouled Rabah","Selma Benziada","Settara","Sidi Abdelaziz","Sidi Marouf","Taher","Texena","Ziama Mansouria"],"19 - Setif":["Setif","Ain Abessa","Ain Arnat","Ain Azel","Ain El Kebira","Ain Lahdjar","Ain Oulmane","Ain Roua","Ain Sebt","Amoucha","Babor","Bazer Sakra","Bellaa","Beni Aziz","Beni Fouda","Beni Mouhli","Beni Ouartilane","Bir El Arch","Bir Haddada","Bouandas","Bougaa","Bousselam","Boutaleb","Djemila","El Eulma","El Ouricia","Guellal","Guelta Zerka","Guenzet","Guidjel","Hamam Soukhna","Hammam Guergour","Harbil","Maaouia","Mezloug","Oued El Barad","Ouled Sabor","Ouled Si Ahmed","Rosfa","Salah Bey","Tachouda","Taya","Tella"],"20 - Saida":["Saida","Ain El Hadjar","Ain Sekhouna","Ain Soltane","Doui Thabet","El Hassasna","Hounet","Maamora","Moulay Larbi","Ouled Brahim","Ouled Khaled","Sidi Ahmed","Sidi Amar","Sidi Boubekeur","Tircine","Youb"],"21 - Skikda":["Skikda","Ain Charchar","Ain Kechera","Azzaba","Ben Azzouz","Beni Bechir","Beni Oulbane","Beni Zid","Bouchetata","Collo","El Arrouch","El Ghedir","El Hadaiek","El Marsa","Es Sebt","Filfila","Kanoua","Kerkera","Oued Zhour","Ouled Attia","Ouled Habbeba","Oum Toub","Ramdane Djamel","Sidi Mezghiche","Tamalous","Zerdezas","Zitouna"],"22 - Sidi Bel Abbes":["Sidi Bel Abbes","Ain Adden","Ain El Berd","Ain Kada","Ain Thrid","Amarnas","Belarbi","Ben Badis","Bir El Hammam","Boukhanafis","Dhaya","Hassi Dahou","Hassi Zahana","Lamtar","Makedra","Marhoum","Merine","Mostefa Ben Brahim","Moulay Slissen","Oued Sebaa","Ras El Ma","Redjem Demouche","Sfissef","Sidi Ali Benyoub","Sidi Brahim","Sidi Hamadouche","Sidi Khaled","Sidi Lahcene","Tabia","Telagh","Tenira","Tessala"],"23 - Annaba":["Annaba","Ain Berda","Berrahel","Chetaibi","El Bouni","El Hadjar","Oued El Aneb","Seraidi","Sidi Amar"],"24 - Guelma":["Guelma","Ain Ben Beida","Ain Hessania","Ain Larbi","Ain Makhlouf","Belkheir","Ben Djarah","Beni Mezline","Bordj Sabat","Bou Hachana","Bou Hamdane","Bouati Mahmoud","Bouchegouf","Dahouara","El Fedjoudj","Hamam Debagh","Heliopolis","Khezara","Medjez Amar","Nechmaya","Oued Cheham","Oued Zenati","Roknia","Sellaoua Announa","Tamlouka"],"25 - Constantine":["Constantine","Ain Abid","Ain Smara","Ben Badis","Beni Hamidene","Didouche Mourad","El Khroub","Hamma Bouziane","Ibn Ziad","Ouled Rahmoun","Zighoud Youcef"],"26 - Medea":["Medea","Ain Boucif","Aissaouia","Aziz","Ben Chicao","Beni Slimane","Berrouaghia","Boghar","Boughzoul","Chelalet El Adhaoura","Cheniguel","Derrag","El Azizia","El Hamdania","El Omaria","Hannacha","Ksar El Boukhari","Maghraoua","Meftaha","Mihoub","Oued Harbil","Ouled Antar","Ouled Brahim","Ouled Maaref","Ouzera","Rebaia","Sedraya","Si Mahdjoub","Sidi Naamane","Souagui","Tablat","Tamesguida"],"27 - Mostaganem":["Mostaganem","Achaacha","Ain Boudinar","Ain Nouissy","Ain Tedles","Benabdelmalek Ramdane","Bouguirat","Fornaka","Hadjadj","Hassi Mameche","Khadra","Mansourah","Mazagran","Mesra","Nekmaria","Ouled Boughalem","Ouled Maalah","Safsaf","Sayada","Sidi Ali","Sidi Lakhdar","Sirat","Souaflia","Stidia","Tazgait","Touahria"],"28 - M'Sila":["MSila","Ain El Hadjel","Ain El Melh","Ain Rich","Belaiba","Beni Ilmane","Berhoum","Bir Foda","Bou Saada","Chellal","Djebel Messaad","El Hamel","Hammam Dalaa","Magra","Medjedel","Mohamed Boudiaf","Ouanougha","Ouled Derradj","Ouled Mansour","Oulteme","Sidi Aissa","Sidi Ameur","Souamaa","Tamsa","Tarmount"],"29 - Mascara":["Mascara","Ain Fekan","Alaimia","Aouf","Benian","Bouhanifia","Chorfa","El Bordj","El Hachem","El Menaouer","Froha","Ghriss","Hacine","Maoussa","Mohammadia","Nesmot","Oggaz","Oued El Abtal","Oued Taria","Sehailia","Sidi Abdeldjebar","Sidi Kada","Sig","Tighennif","Zahana"],"30 - Ouargla":["Ouargla","Ain Beida","El Borma","Hassi Ben Abdellah","Hassi Messaoud","Rouissat","Sidi Khouiled"],"31 - Oran":["Oran","Ain Biya","Ain Turk","Arzew","Ben Freha","Bethioua","Bir El Djir","Boufatis","Bousfer","Boutlelis","El Kerma","Es Senia","Gdyel","Hassi Ben Okba","Hassi Bounif","Mers El Kebir","Messerghin","Oued Tlelat","Sidi Chami","Tafraoui"],"32 - El Bayadh":["El Bayadh","Ain El Orak","Arbaouat","Boualem","Bougtoub","Boussemghoun","Brezina","Chellala","El Bnoud","El Mehara","Ghassoul","Rogassa","Sidi Ameur","Sidi Slimane","Stitten"],"33 - Illizi":["Illizi","Bordj Omar Driss","Debdeb","In Amenas"],"34 - Bordj Bou Arreridj":["Bordj Bou Arreridj","Ain Taghrout","Belimour","Ben Daoud","Bir Kasdali","Bordj Ghdir","Bordj Zemora","Colla","Djaafra","El Achir","El Anseur","El Hamadia","El Main","Hasnaoua","Khelil","Ksour","Mansoura","Medjana","Ouled Brahem","Ouled Dahmane","Rabta","Ras El Oued","Sidi Embarek","Teniet En Nasr","Tesmart","Tixter"],"35 - Boumerdes":["Boumerdes","Afir","Ammal","Baghlia","Beni Amrane","Bordj Menaiel","Boudouaou","Chabet El Ameur","Corso","Dellys","Djinet","Hammedi","Isser","Khemis El Khechna","Larbatache","Naciria","Ouled Aissa","Ouled Hedadj","Ouled Moussa","Si Mustapha","Sidi Daoud","Souk El Haad","Taourga","Thenia","Tidjelabine","Zemmouri"],"36 - El Tarf":["El Tarf","Ain El Assel","Ben M Hidi","Berrihane","Besbes","Bougous","Bouhadjar","Bouteldja","Chefia","Drean","El Aioun","El Kala","Hammam Beni Salah","Oued Zitoun","Raml Souk","Zerizer","Zitouna"],"37 - Tindouf":["Tindouf","Oum El Assel"],"38 - Tissemsilt":["Tissemsilt","Ammari","Beni Chaib","Beni Lahcene","Bordj Bounaama","Bou Caid","Khemisti","Larbaa","Lardjem","Layoune","Maacem","Ouled Bessem","Sidi Abed","Sidi Slimane","Tamellalet","Theniet El Had"],"39 - El Oued":["El Oued","Bayadha","Ben Guecha","Debila","El Ogla","Guemar","Hamraia","Hassi Khalifa","Kouinine","Magrane","Nakhla","Oued El Alenda","Reguiba","Robbah","Sidi Aoun","Taghzout","Taleb Larbi","Trifaoui"],"40 - Khenchela":["Khenchela","Ain Touila","Babar","Baghai","Bouhmama","Chelia","Cherchar","Djellal","El Hamma","El Mahmal","El Oueldja","Kais","Ouled Rechache","Remila","Tamza","Yabous"],"41 - Souk Ahras":["Souk Ahras","Ain Soltane","Ain Zana","Bir Bouhouche","Drea","Haddada","Hanencha","Khedara","Khemissa","Machroha","Merahna","Oued Kebrit","Ouled Driss","Ouled Moumen","Ragouba","Sedrata","Sidi Fredj","Taoura","Tiffech","Zaarouria","Zouabi"],"42 - Tipaza":["Tipaza","Aghbal","Ain Tagourait","Attatba","Beni Mileuk","Bou Haroun","Bou Ismail","Bourkika","Cherchell","Damous","Douaouda","Fouka","Gouraya","Hadjout","Hadjret Ennous","Kolea","Larhat","Menaceur","Merad","Messelmoun","Sidi Ghiles","Sidi Rached","Sidi Semiane"],"43 - Mila":["Mila","Ahmed Rachedi","Ain Mellouk","Ain Tine","Amira Arres","Bouhatem","Chelghoum Laid","Chigara","El Mechira","Ferdjioua","Grarem Gouga","Hamala","Oued Athmenia","Oued Endja","Ouled Khalouf","Rouached","Sidi Khelifa","Sidi Merouane","Tadjenanet","Teleghma","Terrai Bainem","Tessala","Tiberguent","Yahia Beniguecha","Zeghaia"],"44 - Ain Defla":["Ain Defla","Ain Benian","Ain Lechiakh","Ain Soltane","Barbouche","Bathia","Belaas","Ben Allal","Bordj Emir Khaled","Boumedfaa","Bourached","Djelida","Djendel","El Abadia","El Amra","El Attaf","El Maine","Hammam Righa","Khemis Miliana","Miliana","Oued Chorfa","Oued Djemaa","Rouina","Sidi Lakhdar","Tarik Ibn Ziad","Zeddine"],"45 - Naama":["Naama","Ain Ben Khelil","Ain Safra","Assela","Djeniane Bourzeg","El Biod","Kasdir","Mecheria","Moghrar","Sfissifa","Tiout"],"46 - Ain Temouchent":["Ain Temouchent","Aghlal","Ain El Arbaa","Ain Kihal","Ain Tolba","Beni Saf","Bouzedjar","Chentouf","El Amria","El Malah","El Messaid","Emir Abdelkader","Hammam Bouhadjar","Hassasna","Oued Berkeche","Ouled Boudjemaa","Ouled Kihal","Sidi Ben Adda","Sidi Safi","Tamzoura","Terga"],"47 - Ghardaia":["Ghardaia","Berriane","Bounoura","El Atteuf","El Guerrara","Mansoura","Metlili","Sebseb","Zelfana"],"48 - Relizane":["Relizane","Ain Rahma","Ain Tarek","Ammi Moussa","Bendaoud","Beni Dergoun","Beni Zentis","Dar Ben Abdelah","Djidiouia","El Guettar","El Hassi","El Matmar","El Ouldja","Had Echkalla","Hamri","Kalaa","Lahlef","Mazouna","Mediouna","Mendes","Ouarizane","Oued El Djemaa","Oued Rhiou","Ouled Aiche","Ramka","Sidi Khettab","Sidi Saada","Souk El Had","Yellel","Zemmoura"],"49 - Timimoun":["Timimoun","Aougrout","Charouine","Deldoul","Ksar Kaddour","Ouled Aissa","Ouled Said","Talmine","Tinerkouk"],"50 - Bordj Badji Mokhtar":["Bordj Badji Mokhtar","Timiaouine"],"51 - Ouled Djellal":["Ouled Djellal","Besbes","Chaiba","Doucen","Ras El Miad","Sidi Khaled"],"52 - Beni Abbes":["Beni Abbes","Beni Ikhlef","El Ouata","Igli","Kerzaz","Ksabi","Ouled Khoudir","Tabelbala","Tamtert","Timoudi"],"53 - In Salah":["In Salah","Foggaret Azzaouia","In Ghar"],"54 - In Guezzam":["In Guezzam","Tin Zouatine"],"55 - Touggourt":["Touggourt","Benaceur","Blidet Amor","El Alia","El Hadjira","Megarine","Mnaguer","Nezla","Sidi Slimane","Taibet","Tebesbest","Temacine","Zaouia El Abidia"],"56 - Djanet":["Djanet","Bordj El Haouasse"],"57 - El M'ghair":["El Mghair","Djamaa","Mrara","Oum Touyour","Sidi Amrane","Sidi Khelil","Still","Tenedla"],"58 - El Meniaa":["El Meniaa","Hassi Fehal","Hassi Gara"]};
+
+// ===================== TOAST =====================
+function showToast(msg, type, dur) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + (type||'');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(function(){ t.classList.remove('show'); }, dur||2800);
+}
+
+// ===================== تحميل الصفحة =====================
+window.onload = function() {
+  SHEET_URL = localStorage.getItem(LS_URL_KEY) || SHEET_URL_DEFAULT;
+  if (!SHEET_URL) {
+    CONFIG = getDefaultConfig();
+    hideInitLoader();
+    initPage();
+    return;
+  }
+  fetch(SHEET_URL + '?action=getConfig')
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      CONFIG = (data.success && data.config) ? data.config : getDefaultConfig();
+      hideInitLoader(); initPage();
+    })
+    .catch(function() {
+      CONFIG = getDefaultConfig();
+      hideInitLoader(); initPage();
+      showToast('تعذّر الاتصال — إعدادات افتراضية', 'err', 3000);
+    });
+};
+
+function getDefaultConfig() {
+  return {
+    formTitle: 'نموذج الطلب',
+    products: [{name:'منتج 1', price:2500, desc:'وصف المنتج', enabled:true, image:''}],
+    variables: [],
+    offers: []
+  };
+}
+
+function hideInitLoader() {
+  var il = document.getElementById('init-loader');
+  il.classList.add('hide');
+  setTimeout(function(){ il.style.display='none'; }, 400);
+}
+
+function initPage() {
+  document.getElementById('page-title').textContent = '🛒 ' + (CONFIG.formTitle||'نموذج الطلب');
+  document.title = CONFIG.formTitle || 'نموذج الطلب';
+  buildWilayas(); buildProducts(); buildVariables(); buildOffers();
+}
+
+// ===================== WILAYAS =====================
+function buildWilayas() {
+  var sel = document.getElementById('wil');
+  var frag = document.createDocumentFragment();
+  Object.keys(MUN).forEach(function(w) {
+    var o = document.createElement('option'); o.value = w; o.textContent = w; frag.appendChild(o);
+  });
+  sel.appendChild(frag);
+}
+function loadBal() {
+  var w = document.getElementById('wil').value;
+  var b = document.getElementById('bal');
+  b.innerHTML = '<option value="">-- اختر البلدية --</option>';
+  if (w && MUN[w]) {
+    var frag = document.createDocumentFragment();
+    MUN[w].forEach(function(m){ var o = document.createElement('option'); o.value = m; o.textContent = m; frag.appendChild(o); });
+    b.appendChild(frag); b.disabled = false;
+  } else { b.disabled = true; }
+}
+
+// ===================== BUILD SECTIONS =====================
+function buildProducts() {
+  var c = document.getElementById('prods-container'); c.innerHTML = '';
+  selPrice = 0;
+  var active = (CONFIG.products||[]).filter(function(p){ return p.enabled !== false; });
+  if (!active.length) { c.innerHTML = '<p style="color:var(--muted);text-align:center;padding:10px">لا توجد منتجات مفعّلة</p>'; return; }
+  var frag = document.createDocumentFragment();
+  active.forEach(function(p) {
+    var d = document.createElement('div'); d.className = 'pcard'; d.dataset.name = p.name; d.dataset.price = p.price;
+    if (p.image) {
+      var img = document.createElement('img'); img.className = 'pthumb'; img.src = p.image; img.alt = p.name; d.appendChild(img);
+    } else {
+      var ph = document.createElement('div'); ph.className = 'pthumb-ph'; ph.textContent = '📦'; d.appendChild(ph);
+    }
+    var check = document.createElement('div'); check.className = 'pcheck'; d.appendChild(check);
+    var info = document.createElement('div'); info.className = 'pinfo';
+    info.innerHTML = '<div class="pname">'+escHtml(p.name)+'</div>'+(p.desc?'<div class="pdesc">'+escHtml(p.desc)+'</div>':'')+'<div class="pprice">'+Number(p.price).toLocaleString()+' دج</div>';
+    d.appendChild(info);
+    d.onclick = function(){ pickProduct(this); };
+    frag.appendChild(d);
+  });
+  c.appendChild(frag);
+}
+
+function buildVariables() {
+  var c = document.getElementById('vars-container'); c.innerHTML = '';
+  var active = (CONFIG.variables||[]).filter(function(v){ return v.enabled !== false; });
+  document.getElementById('vars-card').style.display = active.length ? 'block' : 'none';
+  var frag = document.createDocumentFragment();
+  active.forEach(function(v) {
+    var d = document.createElement('div'); d.className = 'fg';
+    var sel = document.createElement('select'); sel.id = 'var-'+v.name; sel.dataset.varname = v.name;
+    var defOpt = document.createElement('option'); defOpt.value = ''; defOpt.textContent = '-- اختر '+v.name+' --';
+    sel.appendChild(defOpt);
+    (v.values||[]).forEach(function(x){ var o = document.createElement('option'); o.textContent = x; sel.appendChild(o); });
+    var lbl = document.createElement('label'); lbl.innerHTML = escHtml(v.name)+' <span class="req">*</span>';
+    var em = document.createElement('div'); em.className = 'em'; em.id = 'e-var-'+v.name; em.textContent = 'اختر '+v.name;
+    d.appendChild(lbl); d.appendChild(sel); d.appendChild(em); frag.appendChild(d);
+  });
+  c.appendChild(frag);
+}
+
+function buildOffers() {
+  var c = document.getElementById('offers-container'); c.innerHTML = '';
+  selDisc = 0;
+  var active = (CONFIG.offers||[]).filter(function(o){ return o.enabled !== false; });
+  document.getElementById('offers-card').style.display = active.length ? 'block' : 'none';
+  var frag = document.createDocumentFragment();
+  active.forEach(function(o) {
+    var d = document.createElement('div'); d.className = 'ocard'; d.dataset.name = o.name; d.dataset.disc = o.discount;
+    var badge = o.discount > 0 ? '<span class="obadge">خصم '+o.discount+'%</span>' : '🎁 ';
+    d.innerHTML = '<div class="ocheck"></div><div class="otxt"><div class="oname">'+badge+escHtml(o.name)+'</div>'+(o.desc?'<div class="odesc">'+escHtml(o.desc)+'</div>':'')+'</div>';
+    d.onclick = function(){ pickOffer(this); };
+    frag.appendChild(d);
+  });
+  c.appendChild(frag);
+}
+
+// ===================== INTERACTIONS =====================
+function pickDlv(el, val) {
+  document.querySelectorAll('.dlv-opt').forEach(function(x){ x.classList.remove('sel'); });
+  el.classList.add('sel'); selDlv = val;
+}
+function pickProduct(el) {
+  document.querySelectorAll('.pcard').forEach(function(x){ x.classList.remove('sel'); });
+  el.classList.add('sel'); selPrice = parseFloat(el.dataset.price)||0;
+  updTotal(); document.getElementById('tbox').style.display = 'block';
+}
+function pickOffer(el) {
+  var already = el.classList.contains('sel');
+  document.querySelectorAll('.ocard').forEach(function(x){ x.classList.remove('sel'); });
+  if (!already) { el.classList.add('sel'); selDisc = parseFloat(el.dataset.disc)||0; } else selDisc = 0;
+  updTotal();
+}
+function chgQ(d) {
+  qty = Math.max(1, qty+d);
+  document.getElementById('qn').textContent = qty; updTotal();
+}
+function updTotal() {
+  var sub = selPrice*qty, disc = sub*(selDisc/100), tot = sub-disc;
+  document.getElementById('t1').textContent = Number(selPrice).toLocaleString()+' دج';
+  document.getElementById('t2').textContent = '×'+qty;
+  document.getElementById('t3').textContent = disc>0 ? '-'+Number(disc).toLocaleString()+' دج' : '0 دج';
+  document.getElementById('t4').textContent = Number(tot).toLocaleString()+' دج';
+}
+
+// ===================== VALIDATE & SEND =====================
+function showErr(id, show) {
+  var em = document.getElementById('e-'+id), f = document.getElementById(id);
+  if (em) em.style.display = show ? 'block' : 'none';
+  if (f) f.classList.toggle('err', show);
+}
+function validate() {
+  var ok = true;
+  if (document.getElementById('fn').value.trim().length < 3) { showErr('fn',true); ok=false; } else showErr('fn',false);
+  if (!/^(05|06|07)\d{8}$/.test(document.getElementById('ph').value.trim())) { showErr('ph',true); ok=false; } else showErr('ph',false);
+  if (!document.getElementById('wil').value) { showErr('wil',true); ok=false; } else showErr('wil',false);
+  if (!document.getElementById('bal').value) { showErr('bal',true); ok=false; } else showErr('bal',false);
+  if (document.getElementById('adr').value.trim().length < 3) { showErr('adr',true); ok=false; } else showErr('adr',false);
+  if (!selDlv) { document.getElementById('e-dlv').style.display='block'; ok=false; } else document.getElementById('e-dlv').style.display='none';
+  if (!document.querySelector('.pcard.sel')) { document.getElementById('e-prod').style.display='block'; ok=false; } else document.getElementById('e-prod').style.display='none';
+  document.querySelectorAll('[data-varname]').forEach(function(s) {
+    var eid = document.getElementById('e-var-'+s.dataset.varname);
+    if (!s.value) { if(eid) eid.style.display='block'; s.classList.add('err'); ok=false; }
+    else { if(eid) eid.style.display='none'; s.classList.remove('err'); }
+  });
+  return ok;
+}
+
+function send() {
+  if (!validate()) {
+    var first = document.querySelector('.em[style*="block"]');
+    if (first) first.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  document.getElementById('loader').classList.add('show');
+  document.getElementById('sbtn').disabled = true;
+
+  var pc = document.querySelector('.pcard.sel');
+  var oc = document.querySelector('.ocard.sel');
+  var vs = {};
+  document.querySelectorAll('[data-varname]').forEach(function(s){ if(s.value) vs[s.dataset.varname] = s.value; });
+  var sub = selPrice*qty, disc = sub*(selDisc/100), tot = sub-disc;
+
+  var payload = {
+    action: 'saveOrder',
+    date: new Date().toISOString(),
+    order_id: 'ORD-' + Date.now(),
+    name: document.getElementById('fn').value.trim(),
+    phone: document.getElementById('ph').value.trim(),
+    wilaya: document.getElementById('wil').value,
+    baladia: document.getElementById('bal').value,
+    address: document.getElementById('adr').value.trim(),
+    delivery: selDlv,
+    product: pc ? pc.dataset.name : '',
+    qty: qty,
+    base_price: selPrice,
+    offer: oc ? oc.dataset.name : '',
+    offer_price: disc,
+    var_price: 0,
+    shipping_cost: '',
+    variables: JSON.stringify(vs),
+    total: tot,
+    status: '✅ طلب جديد',
+    source: 'Online Form',
+    notification: 'SENT'
+  };
+
+  if (!SHEET_URL) {
+    document.getElementById('loader').classList.remove('show');
+    showSuccessScreen(payload.order_id);
+    return;
+  }
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'text/plain'},
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    document.getElementById('loader').classList.remove('show');
+    if (data.success) showSuccessScreen(data.orderId || payload.order_id);
+    else { document.getElementById('sbtn').disabled=false; showToast('حدث خطأ أثناء الإرسال','err'); }
+  })
+  .catch(function() {
+    document.getElementById('loader').classList.remove('show');
+    showSuccessScreen(payload.order_id);
+  });
+}
+
+function showSuccessScreen(orderId) {
+  document.getElementById('mainForm').style.display = 'none';
+  document.getElementById('okbox-wrap').style.display = 'block';
+  document.getElementById('okbox-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('admin-fab').style.display = 'none';
+  document.getElementById('oid').textContent = 'رقم الطلب: ' + orderId;
+}
+
+// ===================== HELPERS =====================
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function resizeImg(file, cb) {
+  var r = new FileReader();
+  r.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var MAX=400, w=img.width, h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;} if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
+      var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+      cv.getContext('2d').drawImage(img,0,0,w,h); cb(cv.toDataURL('image/jpeg',.78));
+    };
+    img.src=e.target.result;
+  };
+  r.readAsDataURL(file);
+}
+
+// ===================== ADMIN ROW BUILDERS =====================
+function makeProdRow(p) {
+  p = p||{name:'',price:0,desc:'',enabled:true,image:''};
+  var row = document.createElement('div'); row.className='adm-row'; row._img=p.image||'';
+  var wrap=document.createElement('div'); wrap.className='adm-img-wrap';
+  var prev=document.createElement('div'); prev.className='adm-img-preview'+(p.image?' has-img':''); prev.dataset.role='img-preview';
+  if(p.image) prev.style.backgroundImage='url('+p.image+')'; else prev.textContent='📷';
+  var fi=document.createElement('input'); fi.type='file'; fi.className='adm-img-input'; fi.accept='image/*';
+  var del=document.createElement('button'); del.type='button'; del.className='adm-img-del'+(p.image?' vis':''); del.dataset.role='img-del'; del.textContent='×';
+  wrap.appendChild(prev); wrap.appendChild(fi); wrap.appendChild(del); row.appendChild(wrap);
+  var ni=document.createElement('input'); ni.type='text'; ni.className='adm-pname'; ni.placeholder='اسم المنتج'; ni.value=p.name||'';
+  var pi=document.createElement('input'); pi.type='number'; pi.className='adm-pprice inp-price'; pi.placeholder='السعر'; pi.value=p.price||0; pi.min=0;
+  var di=document.createElement('input'); di.type='text'; di.className='adm-pdesc'; di.placeholder='وصف مختصر'; di.value=p.desc||'';
+  var tog=document.createElement('label'); tog.className='toggle';
+  var cb=document.createElement('input'); cb.type='checkbox'; cb.className='adm-en'; cb.checked=(p.enabled!==false);
+  var sl=document.createElement('span'); sl.className='tgl-sl'; tog.appendChild(cb); tog.appendChild(sl);
+  var dr=document.createElement('button'); dr.type='button'; dr.className='adm-del'; dr.dataset.role='row-del'; dr.textContent='×';
+  row.appendChild(ni); row.appendChild(pi); row.appendChild(di); row.appendChild(tog); row.appendChild(dr);
+  return row;
+}
+function makeVarRow(v) {
+  v=v||{name:'',values:[],enabled:true};
+  var row=document.createElement('div'); row.className='adm-row';
+  var ni=document.createElement('input'); ni.type='text'; ni.className='adm-vname'; ni.placeholder='اسم المتغير'; ni.value=v.name||'';
+  var vi=document.createElement('input'); vi.type='text'; vi.className='adm-vvals'; vi.placeholder='أسود,أبيض,أحمر'; vi.style.flex='2';
+  vi.value=Array.isArray(v.values)?v.values.join(','):(v.values||'');
+  var tog=document.createElement('label'); tog.className='toggle';
+  var cb=document.createElement('input'); cb.type='checkbox'; cb.className='adm-en'; cb.checked=(v.enabled!==false);
+  var sl=document.createElement('span'); sl.className='tgl-sl'; tog.appendChild(cb); tog.appendChild(sl);
+  var dr=document.createElement('button'); dr.type='button'; dr.className='adm-del'; dr.dataset.role='row-del'; dr.textContent='×';
+  row.appendChild(ni); row.appendChild(vi); row.appendChild(tog); row.appendChild(dr);
+  return row;
+}
+function makeOffRow(o) {
+  o=o||{name:'',discount:0,desc:'',enabled:true};
+  var row=document.createElement('div'); row.className='adm-row';
+  var ni=document.createElement('input'); ni.type='text'; ni.className='adm-oname'; ni.placeholder='اسم العرض'; ni.value=o.name||'';
+  var di=document.createElement('input'); di.type='number'; di.className='adm-odisc inp-disc'; di.placeholder='خصم%'; di.value=o.discount||0; di.min=0; di.max=100;
+  var ds=document.createElement('input'); ds.type='text'; ds.className='adm-odesc'; ds.placeholder='وصف العرض'; ds.value=o.desc||'';
+  var tog=document.createElement('label'); tog.className='toggle';
+  var cb=document.createElement('input'); cb.type='checkbox'; cb.className='adm-en'; cb.checked=(o.enabled!==false);
+  var sl=document.createElement('span'); sl.className='tgl-sl'; tog.appendChild(cb); tog.appendChild(sl);
+  var dr=document.createElement('button'); dr.type='button'; dr.className='adm-del'; dr.dataset.role='row-del'; dr.textContent='×';
+  row.appendChild(ni); row.appendChild(di); row.appendChild(ds); row.appendChild(tog); row.appendChild(dr);
+  return row;
+}
+
+// ===================== ADMIN OPEN/CLOSE =====================
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('show');
+  adminUnlocked ? renderAdminSettings() : renderAdminLogin();
+}
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('show'); }
+
+document.getElementById('admin-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAdmin();
+  if (e.target.dataset.role === 'row-del') { e.target.closest('.adm-row').remove(); return; }
+  if (e.target.dataset.role === 'img-preview' || e.target.closest('[data-role="img-preview"]')) {
+    var prev = e.target.dataset.role==='img-preview' ? e.target : e.target.closest('[data-role="img-preview"]');
+    prev.closest('.adm-row').querySelector('.adm-img-input').click(); return;
+  }
+  if (e.target.dataset.role === 'img-del') {
+    var row=e.target.closest('.adm-row'); row._img='';
+    var prev=row.querySelector('.adm-img-preview');
+    prev.style.backgroundImage=''; prev.classList.remove('has-img'); prev.textContent='📷';
+    e.target.classList.remove('vis'); return;
+  }
+});
+document.getElementById('admin-overlay').addEventListener('change', function(e) {
+  if (e.target.classList.contains('adm-img-input')) {
+    var file=e.target.files[0];
+    if(!file||!file.type.startsWith('image/')) return;
+    if(file.size>3*1024*1024){alert('الصورة كبيرة جداً (الحد الأقصى 3 ميجابايت)');return;}
+    var row=e.target.closest('.adm-row');
+    resizeImg(file,function(b64){
+      row._img=b64;
+      var prev=row.querySelector('.adm-img-preview');
+      prev.style.backgroundImage='url('+b64+')'; prev.classList.add('has-img'); prev.textContent='';
+      var d=row.querySelector('.adm-img-del'); if(d) d.classList.add('vis');
+    });
+    e.target.value='';
+  }
+});
+
+// ===================== ADMIN LOGIN =====================
+function renderAdminLogin() {
+  var c=document.getElementById('admin-content');
+  c.innerHTML='<div class="admin-login"><h3>🔐 لوحة الإعدادات</h3><p>أدخل كلمة المرور للدخول</p>'+
+    '<input type="password" id="admin-pw" placeholder="كلمة المرور">'+
+    '<button class="admin-btn" id="admin-login-btn">دخول</button>'+
+    '<div style="color:var(--danger);font-size:.82rem;margin-top:8px;display:none" id="pw-err">كلمة المرور خاطئة</div></div>';
+  document.getElementById('admin-pw').focus();
+  document.getElementById('admin-pw').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+  document.getElementById('admin-login-btn').onclick = doLogin;
+}
+
+function doLogin() {
+  var pw = document.getElementById('admin-pw').value;
+  if (!SHEET_URL) {
+    if (pw === adminPassword) { adminUnlocked=true; renderAdminSettings(); }
+    else { document.getElementById('pw-err').style.display='block'; }
+    return;
+  }
+  var btn = document.getElementById('admin-login-btn');
+  btn.disabled=true; btn.textContent='...';
+  fetch(SHEET_URL+'?action=checkPassword&password='+encodeURIComponent(pw))
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      btn.disabled=false; btn.textContent='دخول';
+      if(data.success){ adminUnlocked=true; adminPassword=pw; renderAdminSettings(); }
+      else { document.getElementById('pw-err').style.display='block'; }
+    })
+    .catch(function(){
+      btn.disabled=false; btn.textContent='دخول';
+      if(pw===adminPassword){ adminUnlocked=true; renderAdminSettings(); }
+      else { document.getElementById('pw-err').style.display='block'; }
+    });
+}
+
+// ===================== ADMIN SETTINGS =====================
+function renderAdminSettings() {
+  var ac=document.getElementById('admin-content'); ac.innerHTML='';
+  var body=document.createElement('div'); body.className='admin-body';
+
+  var s00=document.createElement('div'); s00.className='admin-section';
+  s00.innerHTML='<div class="admin-sec-title">🔗 رابط Google Apps Script</div>'+
+    '<div class="url-box"><b>⚠️ أدخل رابط Apps Script من Google Sheets</b>'+
+    '<input type="text" class="cfg-full-input" id="cfg-sheet-url" value="'+escHtml(SHEET_URL)+'" placeholder="https://script.google.com/macros/s/...">'+
+    '<button class="url-save-btn" onclick="updateSheetUrl()">💾 حفظ الرابط</button></div>'+
+    '<div class="admin-sec-title" style="margin-top:16px">🔒 كلمة المرور الجديدة (اختياري)</div>'+
+    '<input type="text" class="cfg-full-input" id="cfg-newpass" placeholder="اتركه فارغاً للإبقاء على نفس الكلمة">';
+  body.appendChild(s00);
+
+  var s0=document.createElement('div'); s0.className='admin-section';
+  s0.innerHTML='<div class="admin-sec-title">🌐 عنوان الصفحة</div>'+
+    '<input type="text" id="cfg-title" class="cfg-full-input" value="'+escHtml(CONFIG.formTitle||'نموذج الطلب')+'" placeholder="عنوان الفورم">';
+  body.appendChild(s0);
+
+  var s1=document.createElement('div'); s1.className='admin-section';
+  s1.innerHTML='<div class="admin-sec-title">📦 المنتجات</div><div class="adm-hint">الصورة — الاسم — السعر — الوصف — تفعيل</div>';
+  var pl=document.createElement('div'); pl.id='adm-prods';
+  (CONFIG.products||[]).forEach(function(p){ pl.appendChild(makeProdRow(p)); });
+  var ab=document.createElement('button'); ab.type='button'; ab.className='adm-add'; ab.textContent='+ إضافة منتج';
+  ab.onclick=function(){ pl.appendChild(makeProdRow(null)); };
+  s1.appendChild(pl); s1.appendChild(ab); body.appendChild(s1);
+
+  var s2=document.createElement('div'); s2.className='admin-section';
+  s2.innerHTML='<div class="admin-sec-title">🎨 المتغيرات</div><div class="adm-hint">اسم المتغير — الخيارات بفاصلة — تفعيل</div>';
+  var vl=document.createElement('div'); vl.id='adm-vars';
+  (CONFIG.variables||[]).forEach(function(v){ vl.appendChild(makeVarRow(v)); });
+  var vb=document.createElement('button'); vb.type='button'; vb.className='adm-add'; vb.textContent='+ إضافة متغير';
+  vb.onclick=function(){ vl.appendChild(makeVarRow(null)); };
+  s2.appendChild(vl); s2.appendChild(vb); body.appendChild(s2);
+
+  var s3=document.createElement('div'); s3.className='admin-section';
+  s3.innerHTML='<div class="admin-sec-title">🏷️ العروض</div><div class="adm-hint">الاسم — الخصم % — الوصف — تفعيل</div>';
+  var ol=document.createElement('div'); ol.id='adm-offs';
+  (CONFIG.offers||[]).forEach(function(o){ ol.appendChild(makeOffRow(o)); });
+  var ob=document.createElement('button'); ob.type='button'; ob.className='adm-add'; ob.textContent='+ إضافة عرض';
+  ob.onclick=function(){ ol.appendChild(makeOffRow(null)); };
+  s3.appendChild(ol); s3.appendChild(ob); body.appendChild(s3);
+
+  var saveBtn=document.createElement('button'); saveBtn.type='button'; saveBtn.className='save-btn'; saveBtn.id='main-save-btn';
+  saveBtn.innerHTML='💾 حفظ الإعدادات';
+  saveBtn.onclick=saveConfig;
+  body.appendChild(saveBtn);
+  ac.appendChild(body);
+}
+
+function updateSheetUrl() {
+  var url = document.getElementById('cfg-sheet-url').value.trim();
+  if (!url || !url.startsWith('https://')) { showToast('أدخل رابطاً صحيحاً', 'err'); return; }
+  localStorage.setItem(LS_URL_KEY, url); SHEET_URL = url;
+  showToast('✅ تم حفظ الرابط!', 'ok');
+}
+
+function collectConfig() {
+  var title=(document.getElementById('cfg-title').value.trim())||'نموذج الطلب';
+  var products=[], variables=[], offers=[];
+  document.querySelectorAll('#adm-prods .adm-row').forEach(function(r){
+    var name=r.querySelector('.adm-pname').value.trim(); if(!name)return;
+    products.push({name:name,price:parseFloat(r.querySelector('.adm-pprice').value)||0,
+      desc:r.querySelector('.adm-pdesc').value.trim(),enabled:r.querySelector('.adm-en').checked,image:r._img||''});
+  });
+  document.querySelectorAll('#adm-vars .adm-row').forEach(function(r){
+    var name=r.querySelector('.adm-vname').value.trim(); if(!name)return;
+    var vals=r.querySelector('.adm-vvals').value.trim().split(',').map(function(x){return x.trim();}).filter(Boolean);
+    variables.push({name:name,values:vals,enabled:r.querySelector('.adm-en').checked});
+  });
+  document.querySelectorAll('#adm-offs .adm-row').forEach(function(r){
+    var name=r.querySelector('.adm-oname').value.trim(); if(!name)return;
+    offers.push({name:name,discount:parseFloat(r.querySelector('.adm-odisc').value)||0,
+      desc:r.querySelector('.adm-odesc').value.trim(),enabled:r.querySelector('.adm-en').checked});
+  });
+  return {formTitle:title,products:products,variables:variables,offers:offers};
+}
+
+function saveConfig() {
+  var btn = document.getElementById('main-save-btn');
+  btn.disabled=true; btn.innerHTML='⏳ جاري الحفظ...';
+  var newCfg = collectConfig();
+  var newPass = (document.getElementById('cfg-newpass')||{}).value||'';
+
+  if (!SHEET_URL) {
+    CONFIG = newCfg;
+    btn.disabled=false; btn.innerHTML='💾 حفظ الإعدادات';
+    document.getElementById('page-title').textContent = '🛒 '+CONFIG.formTitle;
+    document.title = CONFIG.formTitle;
+    selPrice=0; selDisc=0; qty=1; selDlv='';
+    document.getElementById('qn').textContent='1';
+    document.getElementById('tbox').style.display='none';
+    buildProducts(); buildVariables(); buildOffers();
+    closeAdmin();
+    showToast('✅ تم الحفظ محلياً (لا يوجد رابط Script بعد)', 'ok', 3000);
+    return;
+  }
+
+  var payload = {action:'saveConfig', password:adminPassword,
+    formTitle:newCfg.formTitle, products:newCfg.products,
+    variables:newCfg.variables, offers:newCfg.offers};
+  if (newPass.trim()) payload.newPassword = newPass.trim();
+
+  fetch(SHEET_URL, {
+    method:'POST', headers:{'Content-Type':'text/plain'},
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    btn.disabled=false; btn.innerHTML='💾 حفظ الإعدادات';
+    if(data.success){
+      CONFIG = newCfg;
+      if(newPass.trim()) adminPassword = newPass.trim();
+      document.getElementById('page-title').textContent = '🛒 '+CONFIG.formTitle;
+      document.title = CONFIG.formTitle;
+      selPrice=0; selDisc=0; qty=1; selDlv='';
+      document.getElementById('qn').textContent='1';
+      document.getElementById('tbox').style.display='none';
+      buildProducts(); buildVariables(); buildOffers();
+      closeAdmin();
+      showToast('✅ تم الحفظ — سيراه كل الزبائن!', 'ok', 3500);
+    } else showToast('❌ خطأ: '+(data.error||''), 'err', 4000);
+  })
+  .catch(function(){
+    btn.disabled=false; btn.innerHTML='💾 حفظ الإعدادات';
+    showToast('❌ فشل الاتصال', 'err', 4000);
+  });
+}
+</script>
+</body>
+</html>
